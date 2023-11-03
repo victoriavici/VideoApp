@@ -2,7 +2,7 @@
 //  VideoAppUITestsLaunchTests.swift
 //  VideoAppUITests
 //
-//  Created by Sebastian Mraz on 02/11/2023.
+//  Created by Victoria Galikova on 02/11/2023.
 //
 
 import XCTest

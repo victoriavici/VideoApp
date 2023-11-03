@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		CAFB357D2AF3DE810003448C /* VideoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB357C2AF3DE810003448C /* VideoAppApp.swift */; };
-		CAFB357F2AF3DE810003448C /* VideoAppDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB357E2AF3DE810003448C /* VideoAppDocument.swift */; };
-		CAFB35812AF3DE810003448C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35802AF3DE810003448C /* ContentView.swift */; };
 		CAFB35832AF3DE830003448C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAFB35822AF3DE830003448C /* Assets.xcassets */; };
 		CAFB35862AF3DE830003448C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAFB35852AF3DE830003448C /* Preview Assets.xcassets */; };
 		CAFB35912AF3DE830003448C /* VideoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35902AF3DE830003448C /* VideoAppTests.swift */; };
 		CAFB359B2AF3DE830003448C /* VideoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB359A2AF3DE830003448C /* VideoAppUITests.swift */; };
 		CAFB359D2AF3DE830003448C /* VideoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB359C2AF3DE830003448C /* VideoAppUITestsLaunchTests.swift */; };
+		CAFB35AA2AF3E2660003448C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35A92AF3E2660003448C /* MainView.swift */; };
+		CAFB35AC2AF3E87B0003448C /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35AB2AF3E87B0003448C /* VideoModel.swift */; };
+		CAFB35AE2AF3EC970003448C /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35AD2AF3EC970003448C /* MainViewModel.swift */; };
+		CAFB35B02AF422B30003448C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35AF2AF422B30003448C /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +39,6 @@
 /* Begin PBXFileReference section */
 		CAFB35792AF3DE810003448C /* VideoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAFB357C2AF3DE810003448C /* VideoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAppApp.swift; sourceTree = "<group>"; };
-		CAFB357E2AF3DE810003448C /* VideoAppDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAppDocument.swift; sourceTree = "<group>"; };
-		CAFB35802AF3DE810003448C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CAFB35822AF3DE830003448C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAFB35852AF3DE830003448C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CAFB35872AF3DE830003448C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +47,10 @@
 		CAFB35962AF3DE830003448C /* VideoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAFB359A2AF3DE830003448C /* VideoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAppUITests.swift; sourceTree = "<group>"; };
 		CAFB359C2AF3DE830003448C /* VideoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CAFB35A92AF3E2660003448C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		CAFB35AB2AF3E87B0003448C /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
+		CAFB35AD2AF3EC970003448C /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		CAFB35AF2AF422B30003448C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +102,10 @@
 			isa = PBXGroup;
 			children = (
 				CAFB357C2AF3DE810003448C /* VideoAppApp.swift */,
-				CAFB357E2AF3DE810003448C /* VideoAppDocument.swift */,
-				CAFB35802AF3DE810003448C /* ContentView.swift */,
+				CAFB35A92AF3E2660003448C /* MainView.swift */,
+				CAFB35AB2AF3E87B0003448C /* VideoModel.swift */,
+				CAFB35AF2AF422B30003448C /* DetailView.swift */,
+				CAFB35AD2AF3EC970003448C /* MainViewModel.swift */,
 				CAFB35822AF3DE830003448C /* Assets.xcassets */,
 				CAFB35872AF3DE830003448C /* Info.plist */,
 				CAFB35842AF3DE830003448C /* Preview Content */,
@@ -262,9 +268,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAFB357F2AF3DE810003448C /* VideoAppDocument.swift in Sources */,
 				CAFB357D2AF3DE810003448C /* VideoAppApp.swift in Sources */,
-				CAFB35812AF3DE810003448C /* ContentView.swift in Sources */,
+				CAFB35AC2AF3E87B0003448C /* VideoModel.swift in Sources */,
+				CAFB35AA2AF3E2660003448C /* MainView.swift in Sources */,
+				CAFB35B02AF422B30003448C /* DetailView.swift in Sources */,
+				CAFB35AE2AF3EC970003448C /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
