@@ -36,7 +36,11 @@ extension MainView {
     
     func videoListItem(video: Video) -> some View {
            VStack {
-               NavigationLink(destination: DetailView()) {
+               ZStack {
+                   NavigationLink(destination: DetailUIKitView(video: video)) {
+                       EmptyView()
+                   }.opacity(0)
+                   
                    HStack (spacing: 5) {
                        if let imageURL = URL(string: video.thumbnail) {
                            AsyncImage(url: imageURL){ phase in
@@ -61,6 +65,14 @@ extension MainView {
                        Text(video.name)
                            .font(.subheadline)
                        
+                       Spacer()
+                       
+                       Image(systemName: "chevron.right")
+                                               .resizable()
+                                               .aspectRatio(contentMode: .fit)
+                                               .frame(width: 7)
+                                               .foregroundColor(.blue)
+                       
                    }
                    .frame(maxWidth: .infinity, alignment: .leading)
                    .padding(.top, 6)
@@ -68,7 +80,6 @@ extension MainView {
                }
            }
        }
-    
 }
 
 struct MainView_Previews: PreviewProvider {
