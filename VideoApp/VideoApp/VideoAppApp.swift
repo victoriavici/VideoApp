@@ -12,7 +12,6 @@ struct VideoAppApp: App {
     var body: some Scene {
         WindowGroup {
             MainView(viewModel: MainViewModel())
-            
         }
     }
 }
