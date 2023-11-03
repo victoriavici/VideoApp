@@ -10,7 +10,6 @@ import Foundation
 class MainViewModel: ObservableObject, Identifiable {
     
     @Published var listOfVideos: [Video] = []
-    @Published var isLoading: Status = .loading
     
     init() {
         Task {
@@ -33,12 +32,5 @@ class MainViewModel: ObservableObject, Identifiable {
 
         return decoded.lessons
     }
-}
-
-enum Status: String {
-
-    case loading
-    case error
-    case success
 }
 
