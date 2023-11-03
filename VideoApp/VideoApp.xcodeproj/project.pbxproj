@@ -16,7 +16,8 @@
 		CAFB35AA2AF3E2660003448C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35A92AF3E2660003448C /* MainView.swift */; };
 		CAFB35AC2AF3E87B0003448C /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35AB2AF3E87B0003448C /* VideoModel.swift */; };
 		CAFB35AE2AF3EC970003448C /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35AD2AF3EC970003448C /* MainViewModel.swift */; };
-		CAFB35B02AF422B30003448C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35AF2AF422B30003448C /* DetailView.swift */; };
+		CAFB35B42AF509D20003448C /* DetailUIKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35B32AF509D20003448C /* DetailUIKitView.swift */; };
+		CAFB35B62AF50A080003448C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB35B52AF50A080003448C /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +51,8 @@
 		CAFB35A92AF3E2660003448C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		CAFB35AB2AF3E87B0003448C /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		CAFB35AD2AF3EC970003448C /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		CAFB35AF2AF422B30003448C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		CAFB35B32AF509D20003448C /* DetailUIKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUIKitView.swift; sourceTree = "<group>"; };
+		CAFB35B52AF50A080003448C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +106,8 @@
 				CAFB357C2AF3DE810003448C /* VideoAppApp.swift */,
 				CAFB35A92AF3E2660003448C /* MainView.swift */,
 				CAFB35AB2AF3E87B0003448C /* VideoModel.swift */,
-				CAFB35AF2AF422B30003448C /* DetailView.swift */,
+				CAFB35B32AF509D20003448C /* DetailUIKitView.swift */,
+				CAFB35B52AF50A080003448C /* DetailViewController.swift */,
 				CAFB35AD2AF3EC970003448C /* MainViewModel.swift */,
 				CAFB35822AF3DE830003448C /* Assets.xcassets */,
 				CAFB35872AF3DE830003448C /* Info.plist */,
@@ -271,8 +274,9 @@
 				CAFB357D2AF3DE810003448C /* VideoAppApp.swift in Sources */,
 				CAFB35AC2AF3E87B0003448C /* VideoModel.swift in Sources */,
 				CAFB35AA2AF3E2660003448C /* MainView.swift in Sources */,
-				CAFB35B02AF422B30003448C /* DetailView.swift in Sources */,
+				CAFB35B42AF509D20003448C /* DetailUIKitView.swift in Sources */,
 				CAFB35AE2AF3EC970003448C /* MainViewModel.swift in Sources */,
+				CAFB35B62AF50A080003448C /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
