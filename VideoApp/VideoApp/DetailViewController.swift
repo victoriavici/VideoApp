@@ -10,15 +10,19 @@ import AVFoundation
 
 class DetailViewController: UIViewController {
     var video: Video
+    var lessons: [Video]
+    
     var videoView: UIView!
     var avpController = AVPlayerViewController()
     var videoViewHeightConstraint: NSLayoutConstraint!
     
-    var nameLabel : UILabel?
-    var descriptionLabel : UILabel?
+    var nameLabel = UILabel()
+    var descriptionLabel = UILabel()
+    var nextButton = UIButton(type: .system)
     
-    init(video: Video) {
+    init(video: Video, lessons: [Video]) {
         self.video = video
+        self.lessons = lessons
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -59,31 +63,51 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setViewComponents()
+        view.addSubview(nameLabel)
+        view.addSubview(descriptionLabel)
+        view.addSubview(nextButton)
+    }
+    
+    @objc func pressed() {
+        if let currentIndex = lessons.firstIndex(where: { $0.id == video.id }), currentIndex < lessons.count - 1 {
+            let nextVideo = lessons[currentIndex + 1]
+            video = nextVideo
+        } else if let firstVideo = lessons.first {
+            video = firstVideo
+        }
+        updateUI()
+    }
+    
+    func setViewComponents() {
         setupVideoView()
         startVideo()
         
-        nameLabel = UILabel()
-        nameLabel?.font = UIFont.boldSystemFont(ofSize: 28.0)
-        nameLabel?.frame = CGRect(x: 16, y: UIScreen.main.bounds.height / 3.6, width: UIScreen.main.bounds.width - 24, height: 28)
-        nameLabel?.text = video.name
-        nameLabel?.textColor = .white
-        nameLabel?.numberOfLines = 0
-        nameLabel?.sizeToFit()
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 28.0)
+        nameLabel.frame = CGRect(x: 16, y: UIScreen.main.bounds.height / 3.6, width: UIScreen.main.bounds.width - 32, height: 28)
+        nameLabel.text = video.name
+        nameLabel.textColor = .white
+        nameLabel.numberOfLines = 0
+        nameLabel.sizeToFit()
         
-        view.addSubview(nameLabel!)
+        descriptionLabel.frame = CGRect(x: 16, y: (nameLabel.frame.maxY) + 16, width: UIScreen.main.bounds.width - 32, height: 200)
+        descriptionLabel.text = video.description
+        descriptionLabel.textColor = .white
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.sizeToFit()
         
-        descriptionLabel = UILabel()
-        descriptionLabel?.frame = CGRect(x: 16, y: (nameLabel?.frame.maxY)! + 16, width: UIScreen.main.bounds.width - 24, height: 200)
-        descriptionLabel?.text = video.description
-        descriptionLabel?.textColor = .white
-        descriptionLabel?.numberOfLines = 0
-        descriptionLabel?.sizeToFit()
-        
-        view.addSubview(descriptionLabel!)
-
-        
-    
+        nextButton.setTitle("Next", for: .normal)
+        nextButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        var configuration = UIButton.Configuration.plain()
+        configuration.imagePlacement = .trailing
+        configuration.imagePadding = 2
+        nextButton.configuration = configuration
+        nextButton.sizeToFit()
+        nextButton.frame.origin.x = descriptionLabel.frame.maxX - nextButton.frame.width
+        nextButton.frame.origin.y = descriptionLabel.frame.maxY + 16
+        nextButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
     }
+
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -98,4 +122,17 @@ class DetailViewController: UIViewController {
                     videoViewHeightConstraint.isActive = true
                 }
     }
+    func updateUI() {
+        setViewComponents()
+        view.setNeedsLayout()
+        view.setNeedsDisplay()
+    }
+}
+
+extension UIButton {
+  func imageToRight() {
+      transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+      titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+      imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+  }
 }

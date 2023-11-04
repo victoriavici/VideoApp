@@ -37,7 +37,7 @@ extension MainView {
     func videoListItem(video: Video) -> some View {
            VStack {
                ZStack {
-                   NavigationLink(destination: DetailUIKitView(video: video)) {
+                   NavigationLink(destination: DetailUIKitView(video: video, lessons: viewModel.listOfVideos)) {
                        EmptyView()
                    }.opacity(0)
                    
