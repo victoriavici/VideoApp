@@ -28,6 +28,9 @@ struct MainView: View {
                     }
                 }.listStyle(.plain)
             }
+        }.onAppear() {
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            AppDelegate.orientationLock = .portrait
         }
     }
 }

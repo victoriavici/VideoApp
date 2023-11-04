@@ -14,16 +14,17 @@ class DetailViewController: UIViewController {
     
     var videoView: UIView!
     var avpController = AVPlayerViewController()
-    var videoViewHeightConstraint: NSLayoutConstraint!
     
     var nameLabel = UILabel()
     var descriptionLabel = UILabel()
     var nextButton = UIButton(type: .system)
     
+    
     init(video: Video, lessons: [Video]) {
         self.video = video
         self.lessons = lessons
         super.init(nibName: nil, bundle: nil)
+        
     }
 
     required init?(coder: NSCoder) {
@@ -34,15 +35,11 @@ class DetailViewController: UIViewController {
         videoView = UIView()
         videoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(videoView)
-
-        videoViewHeightConstraint = videoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: UIDevice.current.orientation.isLandscape ? 1.0 : 0.3)
-                videoViewHeightConstraint.isActive = true
-        
         NSLayoutConstraint.activate([
             videoView.topAnchor.constraint(equalTo: view.topAnchor),
             videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-          
+            videoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: UIDevice.current.orientation.isLandscape ? 1 : 0.3)
         ])
     }
 
@@ -64,12 +61,15 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewComponents()
-        view.addSubview(nameLabel)
-        view.addSubview(descriptionLabel)
-        view.addSubview(nextButton)
+        AppDelegate.orientationLock = .all
     }
     
-    @objc func pressed() {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        AppDelegate.orientationLock = .portrait
+    }
+    
+    @objc private func pressed() {
         if let currentIndex = lessons.firstIndex(where: { $0.id == video.id }), currentIndex < lessons.count - 1 {
             let nextVideo = lessons[currentIndex + 1]
             video = nextVideo
@@ -82,57 +82,58 @@ class DetailViewController: UIViewController {
     func setViewComponents() {
         setupVideoView()
         startVideo()
-        
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 28.0)
-        nameLabel.frame = CGRect(x: 16, y: UIScreen.main.bounds.height / 3.6, width: UIScreen.main.bounds.width - 32, height: 28)
-        nameLabel.text = video.name
-        nameLabel.textColor = .white
-        nameLabel.numberOfLines = 0
-        nameLabel.sizeToFit()
-        
-        descriptionLabel.frame = CGRect(x: 16, y: (nameLabel.frame.maxY) + 16, width: UIScreen.main.bounds.width - 32, height: 200)
-        descriptionLabel.text = video.description
-        descriptionLabel.textColor = .white
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.sizeToFit()
-        
-        nextButton.setTitle("Next", for: .normal)
-        nextButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        var configuration = UIButton.Configuration.plain()
-        configuration.imagePlacement = .trailing
-        configuration.imagePadding = 2
-        nextButton.configuration = configuration
-        nextButton.sizeToFit()
-        nextButton.frame.origin.x = descriptionLabel.frame.maxX - nextButton.frame.width
-        nextButton.frame.origin.y = descriptionLabel.frame.maxY + 16
-        nextButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
-    }
+        if (UIDevice.current.orientation.isLandscape) {
+            nameLabel.removeFromSuperview()
+            descriptionLabel.removeFromSuperview()
+            nextButton.removeFromSuperview()
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        } else {
+            nameLabel.font = UIFont.boldSystemFont(ofSize: 28.0)
+            nameLabel.frame = CGRect(x: 16, y: UIScreen.main.bounds.height / 3.6, width: UIScreen.main.bounds.width - 32, height: 28)
+            nameLabel.text = video.name
+            nameLabel.textColor = .white
+            nameLabel.numberOfLines = 0
+            nameLabel.sizeToFit()
+            
+            descriptionLabel.frame = CGRect(x: 16, y: (nameLabel.frame.maxY) + 16, width: UIScreen.main.bounds.width - 32, height: 200)
+            descriptionLabel.text = video.description
+            descriptionLabel.textColor = .white
+            descriptionLabel.numberOfLines = 0
+            descriptionLabel.sizeToFit()
+            
+            nextButton.setTitle("Next", for: .normal)
+            nextButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+            var configuration = UIButton.Configuration.plain()
+            configuration.imagePlacement = .trailing
+            configuration.imagePadding = 2
+            nextButton.configuration = configuration
+            nextButton.sizeToFit()
+            nextButton.frame.origin.x = descriptionLabel.frame.maxX - nextButton.frame.width
+            nextButton.frame.origin.y = descriptionLabel.frame.maxY + 16
+            nextButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
+            view.addSubview(nameLabel)
+            view.addSubview(descriptionLabel)
+            view.addSubview(nextButton)
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
 
+        }
+    }
+    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
-        if UIDevice.current.orientation.isLandscape {
-                    videoViewHeightConstraint.isActive = false
-                    videoViewHeightConstraint = videoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1.0)
-                    videoViewHeightConstraint.isActive = true
-                } else {
-                    videoViewHeightConstraint.isActive = false
-                    videoViewHeightConstraint = videoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3)
-                    videoViewHeightConstraint.isActive = true
-                }
+        updateUI()
+       
     }
+    
     func updateUI() {
         setViewComponents()
         view.setNeedsLayout()
         view.setNeedsDisplay()
     }
+    
+    
 }
 
-extension UIButton {
-  func imageToRight() {
-      transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-      titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-      imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-  }
-}
+
+
