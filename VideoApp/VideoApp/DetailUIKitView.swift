@@ -16,6 +16,13 @@ struct DetailUIKitView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: DetailViewController, context: Context) {
-        //todo
+        if uiViewController.video != video {
+                uiViewController.video = video
+            }
+
+        if uiViewController.lessons != lessons {
+                uiViewController.lessons = lessons
+        }
     }
+    
 }

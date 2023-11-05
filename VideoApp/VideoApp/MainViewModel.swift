@@ -15,7 +15,6 @@ class MainViewModel: ObservableObject, Identifiable {
         Task {
             do {
                 listOfVideos = try await fetchVideosFromAPI()
-
             } catch {
                 print(error)
             }
@@ -32,5 +31,6 @@ class MainViewModel: ObservableObject, Identifiable {
 
         return decoded.lessons
     }
+    
 }
 

@@ -26,9 +26,11 @@ struct MainView: View {
                     ForEach(viewModel.listOfVideos) { video in
                         videoListItem(video: video)
                     }
-                }.listStyle(.plain)
+                }
+                .listStyle(.plain)
             }
-        }.onAppear() {
+        }
+        .onAppear() {
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             AppDelegate.orientationLock = .portrait
         }
@@ -42,7 +44,8 @@ extension MainView {
                ZStack {
                    NavigationLink(destination: DetailUIKitView(video: video, lessons: viewModel.listOfVideos)) {
                        EmptyView()
-                   }.opacity(0)
+                   }
+                   .opacity(0)
                    
                    HStack (spacing: 5) {
                        if let imageURL = URL(string: video.thumbnail) {
