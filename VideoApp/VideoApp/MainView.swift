@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     
-    @ObservedObject var viewModel : MainViewModel
+    @ObservedObject var viewModel: MainViewModel
     
     var body: some View {
         NavigationView {
@@ -17,17 +17,25 @@ struct MainView: View {
                 Text("Videá")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .padding(.leading, 18)
-                    .padding(.top, 18)
-                    .padding(.bottom,8)
+                    .padding([.top, .leading], 18)
+                    .padding(.bottom, 8)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 List {
                     ForEach(viewModel.listOfVideos) { video in
                         videoListItem(video: video)
                     }
-                }.listStyle(.plain)
+                }
+                .listStyle(.plain)
+                .accessibilityIdentifier("list")
             }
+        }
+        .refreshable {
+            viewModel.load()
+        }
+        .onAppear() {
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            AppDelegate.orientationLock = .portrait
         }
     }
 }
@@ -37,13 +45,14 @@ extension MainView {
     func videoListItem(video: Video) -> some View {
            VStack {
                ZStack {
-                   NavigationLink(destination: DetailUIKitView(video: video)) {
+                   NavigationLink(destination: DetailUIKitView(video: video, lessons: viewModel.listOfVideos)) {
                        EmptyView()
-                   }.opacity(0)
+                   }
+                   .opacity(0)
                    
                    HStack (spacing: 5) {
                        if let imageURL = URL(string: video.thumbnail) {
-                           AsyncImage(url: imageURL){ phase in
+                           AsyncImage(url: imageURL) { phase in
                                switch phase {
                                case .empty:
                                    ProgressView()
@@ -52,7 +61,7 @@ extension MainView {
                                case .success(let image):
                                    image
                                        .resizable()
-                                       .aspectRatio(contentMode: .fit)
+                                       .scaledToFit()
                                        .frame(width: 104, height: 58)
                                        .cornerRadius(3)
                                        .padding(.trailing, 8)
@@ -60,30 +69,34 @@ extension MainView {
                                    EmptyView()
                                }
                            }
+                           .accessibilityIdentifier("obrazok")
                        }
                        
                        Text(video.name)
                            .font(.subheadline)
+                           .accessibilityIdentifier("nazov")
                        
                        Spacer()
                        
                        Image(systemName: "chevron.right")
-                                               .resizable()
-                                               .aspectRatio(contentMode: .fit)
-                                               .frame(width: 7)
-                                               .foregroundColor(.blue)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 7)
+                            .foregroundColor(.blue)
+                            .accessibilityIdentifier("sipka")
                        
                    }
                    .frame(maxWidth: .infinity, alignment: .leading)
-                   .padding(.top, 6)
-                   .padding(.bottom, 6)
+                   .padding([.top, .bottom], 6)
                }
            }
        }
+    
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView(viewModel: MainViewModel()) 
     }
+    
 }

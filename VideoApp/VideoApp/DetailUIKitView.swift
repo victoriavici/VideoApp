@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct DetailUIKitView: UIViewControllerRepresentable {
+    
     let video: Video
+    let lessons: [Video]
 
     func makeUIViewController(context: Context) -> DetailViewController {
-        return DetailViewController(video: video)
+        return DetailViewController(video: video, lessons: lessons)
     }
 
     func updateUIViewController(_ uiViewController: DetailViewController, context: Context) {
-        //todo
+        if uiViewController.video != video {
+                uiViewController.video = video
+        }
+
+        if uiViewController.lessons != lessons {
+                uiViewController.lessons = lessons
+        }
     }
+    
 }
