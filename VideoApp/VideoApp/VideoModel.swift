@@ -8,6 +8,7 @@
 import Foundation
 
 struct VideoResponse : Decodable, Identifiable {
+    
     var id: UUID?
     var lessons: [Video]
     

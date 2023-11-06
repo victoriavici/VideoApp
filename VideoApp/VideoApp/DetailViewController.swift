@@ -10,8 +10,6 @@ import AVFoundation
 
 class DetailViewController: UIViewController {
     
-    //MARK: - Var
-    
     var video: Video
     var lessons: [Video]
      
@@ -28,7 +26,11 @@ class DetailViewController: UIViewController {
         self.video = video
         self.lessons = lessons
         super.init(nibName: nil, bundle: nil)
-        
+        nameLabel.accessibilityIdentifier = "name"
+        descriptionLabel.accessibilityIdentifier = "description"
+        videoView.accessibilityIdentifier = "video"
+        nextButton.accessibilityIdentifier = "next"
+        downloadButton.accessibilityIdentifier = "download"
     }
 
     required init?(coder: NSCoder) {
@@ -127,33 +129,34 @@ class DetailViewController: UIViewController {
         downloadButton.isEnabled = false
         
         let session = URLSession.shared
-        downloadTask = session.downloadTask(with: URL(string: video.video_url)!) { [weak self] (tempURL, response, error) in
-            if let tempURL = tempURL {
-                
-                if let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
-                    let videoDirectory = cacheDirectory.appendingPathComponent("videa")
-                    do {
-                        try FileManager.default.createDirectory(at: videoDirectory,
-                                                                withIntermediateDirectories: true, attributes: nil)
-                        let destinationURL = videoDirectory.appendingPathComponent("\(self!.video.id).mp4")
-                        try FileManager.default.moveItem(at: tempURL, to: destinationURL)
-                    } catch {
-                        print(error)
-                        self?.downloadButton.isEnabled = true
+        if let url = URL(string: video.video_url) {
+            downloadTask = session.downloadTask(with: url) { [weak self] (tempURL, response, error) in
+                if let tempURL = tempURL {
+                    
+                    if let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
+                        let videoDirectory = cacheDirectory.appendingPathComponent("videa")
+                        do {
+                            try FileManager.default.createDirectory(at: videoDirectory,
+                                                                    withIntermediateDirectories: true, attributes: nil)
+                            let destinationURL = videoDirectory.appendingPathComponent("\(String(describing: self?.video.id)).mp4")
+                            try FileManager.default.moveItem(at: tempURL, to: destinationURL)
+                        } catch {
+                            print(error)
+                            self?.downloadButton.isEnabled = true
+                        }
                     }
+                } else if let error = error {
+                    print(error)
+                    self?.downloadButton.isEnabled = true
                 }
-            } else if let error = error {
-                print(error)
-                self?.downloadButton.isEnabled = true
-            }
-            
-            DispatchQueue.main.async {
-                self?.downloadButton.setTitle("Downloaded", for: .normal)
-                self?.downloadButton.setImage(UIImage(systemName: "checkmark.icloud"), for: .normal)
-                self?.downloadButton.isEnabled = false
+                
+                DispatchQueue.main.async {
+                    self?.downloadButton.setTitle("Downloaded", for: .normal)
+                    self?.downloadButton.setImage(UIImage(systemName: "checkmark.icloud"), for: .normal)
+                    self?.downloadButton.isEnabled = false
+                }
             }
         }
-        
         downloadTask?.resume()
     }
 
@@ -216,26 +219,26 @@ class DetailViewController: UIViewController {
             
             if FileManager.default.fileExists(atPath: videoURL.path) {
                 let player = AVPlayer(url: videoURL)
-                avpController.player = player
-                avpController.entersFullScreenWhenPlaybackBegins = true
-                addChild(avpController)
-                avpController.view.frame = videoView.bounds
-                videoView.addSubview(avpController.view)
-                avpController.didMove(toParent: self)
-                player.play()
+                setAvp(player: player)
             } else if let videoURL = URL(string: video.video_url) {
                 let player = AVPlayer(url: videoURL)
-                avpController.player = player
-                avpController.entersFullScreenWhenPlaybackBegins = true
-                addChild(avpController)
-                avpController.view.frame = videoView.bounds
-                videoView.addSubview(avpController.view)
-                avpController.didMove(toParent: self)
-                player.play()
+                setAvp(player: player)
             } else {
                 print("Neplatná URL videa")
             }
         }
+    }
+    
+    private func setAvp(player : AVPlayer) {
+        avpController.player = player
+        avpController.entersFullScreenWhenPlaybackBegins = true
+        addChild(avpController)
+        avpController.view.frame = videoView.bounds
+        avpController.exitsFullScreenWhenPlaybackEnds = false
+        avpController.entersFullScreenWhenPlaybackBegins = false
+        videoView.addSubview(avpController.view)
+        avpController.didMove(toParent: self)
+        player.play()
     }
     
 }

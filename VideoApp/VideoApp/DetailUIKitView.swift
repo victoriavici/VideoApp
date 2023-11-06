@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailUIKitView: UIViewControllerRepresentable {
+    
     let video: Video
     let lessons: [Video]
 
