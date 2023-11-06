@@ -16,7 +16,6 @@ class MainViewModel: ObservableObject, Identifiable {
     }
     
     func fetchVideosFromAPI() async throws -> [Video] {
-   
         if let url = URL(string: "https://fksoftware.sk/video/data.json") {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoded = try JSONDecoder().decode(VideoResponse.self, from: data)

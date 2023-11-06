@@ -4,6 +4,7 @@
 //
 //  Created by Victoria Galikova on 03/11/2023.
 //
+
 import UIKit
 import AVKit
 import AVFoundation
@@ -127,18 +128,19 @@ class DetailViewController: UIViewController {
     @objc private func download() {
         downloadButton.setTitle("Downloading...", for: .normal)
         downloadButton.isEnabled = false
+        downloadButton.sizeToFit()
         
         let session = URLSession.shared
         if let url = URL(string: video.video_url) {
-            downloadTask = session.downloadTask(with: url) { [weak self] (tempURL, response, error) in
+            downloadTask = session.downloadTask(with: url ) { [weak self] (tempURL, response, error) in
                 if let tempURL = tempURL {
-                    
                     if let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
                         let videoDirectory = cacheDirectory.appendingPathComponent("videa")
                         do {
                             try FileManager.default.createDirectory(at: videoDirectory,
                                                                     withIntermediateDirectories: true, attributes: nil)
-                            let destinationURL = videoDirectory.appendingPathComponent("\(String(describing: self?.video.id)).mp4")
+                            let destinationURL = videoDirectory
+                                .appendingPathComponent("\(self!.video.id).mp4")
                             try FileManager.default.moveItem(at: tempURL, to: destinationURL)
                         } catch {
                             print(error)
@@ -154,6 +156,7 @@ class DetailViewController: UIViewController {
                     self?.downloadButton.setTitle("Downloaded", for: .normal)
                     self?.downloadButton.setImage(UIImage(systemName: "checkmark.icloud"), for: .normal)
                     self?.downloadButton.isEnabled = false
+                    self?.downloadButton.sizeToFit()
                 }
             }
         }
@@ -229,13 +232,11 @@ class DetailViewController: UIViewController {
         }
     }
     
-    private func setAvp(player : AVPlayer) {
+    private func setAvp(player: AVPlayer) {
         avpController.player = player
         avpController.entersFullScreenWhenPlaybackBegins = true
         addChild(avpController)
         avpController.view.frame = videoView.bounds
-        avpController.exitsFullScreenWhenPlaybackEnds = false
-        avpController.entersFullScreenWhenPlaybackBegins = false
         videoView.addSubview(avpController.view)
         avpController.didMove(toParent: self)
         player.play()
